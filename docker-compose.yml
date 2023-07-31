@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+ frontend:
+  build: ./
+  ports:
+   - 127.0.0.1:3000:3000
+  environment:
+   - REACT_APP_API_URL=http://localhost:5000/api
