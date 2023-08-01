@@ -31,6 +31,7 @@ function SimpleDialog(props) {
   const [numberRows, setNumberRows] = useState(3);
   const [numberColumns, setNumberColumns] = useState(4);
   const [isEditing, setIsEditing] = useState(false);
+  const [minWidth, setMinWidth] = useState(0);
 
   function getDataFromTable(params) {
     tempRows.current = tempRows.current.map((item) =>
@@ -81,6 +82,7 @@ function SimpleDialog(props) {
   useEffect(() => {
     if (windows[componentIndex]?.data) {
       setFieldName(windows[componentIndex].data.fieldName);
+      setMinWidth(windows[componentIndex].data.minWidth);
       tempRows.current = windows[componentIndex].data.rows;
       setNumberRows(tempRows.current.length);
       setNumberColumns(Object.keys(tempRows.current[0]).length - 1);
@@ -91,6 +93,7 @@ function SimpleDialog(props) {
     const cloneData = [...windows];
     cloneData[componentIndex].data = {
       fieldName,
+      minWidth,
       rows: tempRows.current,
     };
     setWindows(cloneData);
@@ -108,6 +111,13 @@ function SimpleDialog(props) {
             fullWidth
             value={fieldName}
             onChange={(e) => setFieldName(e.target.value)}
+          />
+          <InputLabel sx={{mt: 1}}>Min width</InputLabel>
+          <Input
+            value={minWidth}
+            fullWidth
+            type="number"
+            onChange={(e) => setMinWidth(e.target.value)}
           />
           <Stack direction="row" spacing={2} mt={2}>
             <TextField

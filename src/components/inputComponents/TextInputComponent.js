@@ -25,6 +25,7 @@ function SimpleDialog(props) {
   const [isRequired, setIsRequired] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [isEmail, setisEmail] = useState(false);
+  const [minWidth, setMinWidth] = useState(0);
 
   useEffect(() => {
     setFieldName(textFieldProps.label);
@@ -32,6 +33,7 @@ function SimpleDialog(props) {
     setIsRequired(windows[componentIndex].data.isRequired);
     setIsHide(windows[componentIndex].data.isHide);
     setisEmail(windows[componentIndex].data.isEmail);
+    setMinWidth(windows[componentIndex].data.minWidth);
   }, [windows, componentIndex, textFieldProps]);
 
   const handleSave = () => {
@@ -39,6 +41,7 @@ function SimpleDialog(props) {
     if (type === TYPE_TEXT || type === TYPE_AREA)
       cloneData[componentIndex].data = {
         fieldName,
+        minWidth,
         defaultValue,
         isHide,
         isRequired,
@@ -47,6 +50,7 @@ function SimpleDialog(props) {
     else if (type === TYPE_LABEL)
       cloneData[componentIndex].data = {
         fieldName: "Label",
+        minWidth,
         defaultValue: fieldName,
       };
     setWindows(cloneData);
@@ -58,12 +62,18 @@ function SimpleDialog(props) {
       <DialogTitle>{type} Settings</DialogTitle>
       <DialogContent dividers>
         <Box>
-          <InputLabel htmlFor="field-name">Field name</InputLabel>
+          <InputLabel>Field name</InputLabel>
           <Input
-            id="field-name"
             value={fieldName}
             fullWidth
             onChange={(e) => setFieldName(e.target.value)}
+          />
+          <InputLabel sx={{mt: 1}}>Min width</InputLabel>
+          <Input
+            value={minWidth}
+            fullWidth
+            type="number"
+            onChange={(e) => setMinWidth(e.target.value)}
           />
         </Box>
         {(type === TYPE_TEXT || type === TYPE_AREA) && (

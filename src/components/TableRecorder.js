@@ -38,7 +38,10 @@ function SimpleDialog(props) {
   const [isUpdated, setisUpdated] = useState(false);
 
   const addNewRecord = () => {
-    inputComponetRef.current.updateValue();
+    try {
+      inputComponetRef.current.updateValue();
+    }
+    catch {}
     reset();
     onClose();
     setisUpdated(true);
@@ -186,94 +189,96 @@ export default function TableRecorder() {
       {!records ? (
         <LinearProgress />
       ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                {windows.map((window, i) => {
-                  if (window.data.isHide)
-                    return <TableCell align="center" key={i}></TableCell>;
+        <>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {windows.map((window, i) => {
+                    if (window.data.isHide)
+                      return <TableCell align="center" key={i}></TableCell>;
+                    return (
+                      <TableCell align="center" sx={{minWidth: `${window.data.minWidth}px`}} key={i}>
+                        {window.data.fieldName}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {records.map((record) => {
+                  const columnDatas = record.data;
                   return (
-                    <TableCell align="center" key={i}>
-                      {window.data.fieldName}
-                    </TableCell>
-                  );
-                })}
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {records.map((record) => {
-                const columnDatas = record.data;
-                return (
-                  <TableRow
-                    key={record._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    {columns.map((column, index) => {
-                      const columnData = columnDatas[column];
-                      if (Array.isArray(columnData)) {
-                        if (
-                          typeof columnData[0] === "object" &&
-                          columnData[0] !== null
-                        ) {
+                    <TableRow
+                      key={record._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      {columns.map((column, index) => {
+                        const columnData = columnDatas[column];
+                        if (Array.isArray(columnData)) {
+                          if (
+                            typeof columnData[0] === "object" &&
+                            columnData[0] !== null
+                          ) {
+                            return (
+                              <TableCell align="center" key={index}>
+                                <div
+                                  style={{
+                                    width: "100%",
+                                  }}
+                                >
+                                  <StyledDataGrid
+                                    rows={columnData}
+                                    autoHeight
+                                    hideFooter
+                                    columns={generateColumnsFromRows(
+                                      columnData,
+                                      false
+                                    )}
+                                  />
+                                </div>
+                              </TableCell>
+                            );
+                          }
+                          const validColumns = columnData.filter(
+                            (column) => column !== null && column !== undefined
+                          );
                           return (
-                            <TableCell align="center" width="452px" key={index}>
-                              <div
-                                style={{
-                                  width: "452px",
-                                  height: "157.5px",
-                                }}
-                              >
-                                <StyledDataGrid
-                                  rows={columnData}
-                                  hideFooter
-                                  columns={generateColumnsFromRows(
-                                    columnData,
-                                    false
-                                  )}
-                                />
-                              </div>
+                            <TableCell align="center" key={index}>
+                              {validColumns.join(", ")}
                             </TableCell>
                           );
                         }
-                        const validColumns = columnData.filter(
-                          (column) => column !== null && column !== undefined
-                        );
                         return (
                           <TableCell align="center" key={index}>
-                            {validColumns.join(", ")}
+                            {columnData || ""}
                           </TableCell>
                         );
-                      }
-                      return (
-                        <TableCell align="center" key={index}>
-                          {columnData || ""}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell>
-                      <Edit
-                        color="action"
-                        cursor="pointer"
-                        onClick={() => {
-                          handleClickOpen(record._id, columnDatas);
-                        }}
-                      />
-                      <RemoveCircle
-                        color="action"
-                        cursor="pointer"
-                        onClick={() => {
-                          setDeleteId(record._id);
-                          setOpen2(true);
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                      })}
+                      <TableCell sx={{minWidth: 80}}>
+                        <Edit
+                          color="action"
+                          cursor="pointer"
+                          onClick={() => {
+                            handleClickOpen(record._id, columnDatas);
+                          }}
+                        />
+                        <RemoveCircle
+                          color="action"
+                          cursor="pointer"
+                          onClick={() => {
+                            setDeleteId(record._id);
+                            setOpen2(true);
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Button
             variant="contained"
             fullWidth
@@ -282,7 +287,7 @@ export default function TableRecorder() {
           >
             <AddCircleOutline />
           </Button>
-        </TableContainer>
+        </>
       )}
       <Dialog open={open2} onClose={() => setOpen2(false)}>
         <DialogTitle>Are you sure you want to delete?</DialogTitle>

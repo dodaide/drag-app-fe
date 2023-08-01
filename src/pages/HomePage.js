@@ -11,6 +11,7 @@ import {
   Button,
   Typography,
   Divider,
+  Skeleton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { axios } from "../utils/httpHelper";
@@ -24,12 +25,14 @@ import MultipleSelectChip from "../components/MultipleSelectChip";
 export default function HomePage() {
   const [windowList, setWindowList] = useState([]);
   const [windowGroupList, setWindowGroupList] = useState([]);
+  const [isLoadDone, setIsLoadDone] = useState(false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
   const { handleSubmit, register, reset } = useForm();
   const { show } = useContextMenu({ id: MENU_ID });
   const [clickedId, setClickedId] = useState();
+  const emptyArray = new Array(12).fill(undefined);
 
   const handleClose = () => {
     setOpen(false);
@@ -98,66 +101,101 @@ export default function HomePage() {
       .get(`${process.env.REACT_APP_API_URL}/window/getAllWindows`)
       .then((response) => {
         setWindowList(response.data);
+        setIsLoadDone(true);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     axios
       .get(`${process.env.REACT_APP_API_URL}/userwindow/getAllWindows`)
       .then((response) => {
         setWindowGroupList(response.data);
+        setIsLoadDone(true);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
     <>
       <Header />
-      <Container sx={{ marginY: "16px" }} maxWidth="xl">
-        <Typography variant="h6" marginY={2}>
-          Your Apps
-        </Typography>
-        <Divider />
-        <Grid container marginY={3} spacing={2}>
-          {windowList.map((app) => (
-            <Grid
-              onContextMenu={(e) => handleContextMenu(e, app._id)}
-              key={app._id}
-              item
-              xs={2}
-            >
-              <AppCard title={app.name} id={app._id} />
+      {isLoadDone ? (
+        <Container sx={{ marginY: "16px" }} maxWidth="xl">
+          <Typography variant="h6" marginY={2}>
+            Your Apps
+          </Typography>
+          <Divider />
+          <Grid container marginY={3} spacing={2}>
+            {windowList.map((app) => (
+              <Grid
+                onContextMenu={(e) => handleContextMenu(e, app._id)}
+                key={app._id}
+                item
+                xs={2}
+              >
+                <AppCard title={app.name} id={app._id} />
+              </Grid>
+            ))}
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setClickedId();
+                  setOpen(true);
+                }}
+                sx={{ height: '100%', width: '100%' }}
+              >
+                <Add fontSize="large" />
+              </Button>
             </Grid>
-          ))}
-          <Grid item xs={2}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setClickedId();
-                setOpen(true);
-              }}
-              sx={{height: '100%', width: '100%'}}
-            >
-              <Add fontSize="large"/>
-            </Button>
           </Grid>
-        </Grid>
-        <Divider />
-        <Typography variant="h6" marginY={2}>
-          Your Group Apps 
-        </Typography>
-        <Divider />
-        <Grid container marginY={3} spacing={2}>
-          {windowGroupList.map((app) => (
-            <Grid
-              key={app._id}
-              item
-              xs={2}
-            >
-              <AppCard title={app.name} id={app._id} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+          <Divider />
+          <Typography variant="h6" marginY={2}>
+            Your Group Apps
+          </Typography>
+          <Divider />
+          <Grid container marginY={3} spacing={2}>
+            {windowGroupList.map((app) => (
+              <Grid
+                key={app._id}
+                item
+                xs={2}
+              >
+                <AppCard title={app.name} id={app._id} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      ) : (
+        <Container sx={{ marginY: "16px" }} maxWidth="xl">
+          <Skeleton variant="text" sx={{ fontSize: '2rem', margin: "auto" }} width={300} />
+          <Divider />
+          <Grid container marginY={3} spacing={2}>
+            {emptyArray.map((app, index) => (
+              <Grid
+                key={index}
+                item
+                xs={2}
+              >
+                <Skeleton variant="rounded" height={100} />
+              </Grid>
+            ))}
+          </Grid>
+          <Divider />
+          <Skeleton variant="text" sx={{ fontSize: '2rem', margin: "auto" }} width={300} />
+          <Divider />
+          <Grid container marginY={3} spacing={2}>
+            {emptyArray.map((app, index) => (
+              <Grid
+                key={index}
+                item
+                xs={2}
+              >
+                <Skeleton variant="rounded" height={100} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      )}
+
       <Menu id={MENU_ID}>
         <Item onClick={() => setOpen3(true)}>Share</Item>
         <Item onClick={() => setOpen2(true)}>Delete</Item>

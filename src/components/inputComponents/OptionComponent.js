@@ -33,9 +33,11 @@ function SimpleDialog(props) {
   const [options, setOptions] = useState([]);
   const [isRequired, setIsRequired] = useState(false);
   const [isHide, setIsHide] = useState(false);
+  const [minWidth, setMinWidth] = useState(0);
 
   useEffect(() => {
     setFieldName(windows[componentIndex].data.fieldName);
+    setMinWidth(windows[componentIndex].data.minWidth);
     setOptions(windows[componentIndex].data.options);
     setIsRequired(windows[componentIndex].data.isRequired);
     setIsHide(windows[componentIndex].data.isHide);
@@ -45,6 +47,7 @@ function SimpleDialog(props) {
     const cloneData = [...windows];
     cloneData[componentIndex].data = {
       fieldName,
+      minWidth,
       options,
       isHide,
       isRequired,
@@ -80,6 +83,13 @@ function SimpleDialog(props) {
             fullWidth
             value={fieldName}
             onChange={(e) => setFieldName(e.target.value)}
+          />
+          <InputLabel sx={{mt: 1}}>Min width</InputLabel>
+          <Input
+            value={minWidth}
+            fullWidth
+            type="number"
+            onChange={(e) => setMinWidth(e.target.value)}
           />
         </Box>
         <FormGroup>

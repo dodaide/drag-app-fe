@@ -95,7 +95,7 @@ export default function ToolBar() {
       .patch(`${process.env.REACT_APP_API_URL}/window/editWindow/${id}`, {
         windows: serializedData,
       })
-      .then((res) => {
+      .then(() => {
         if (isDiscardChange) {
           setWindows([...initWindows]);
           setAlertContent("Discard Change Successfully!");

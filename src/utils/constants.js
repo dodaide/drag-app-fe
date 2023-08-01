@@ -18,7 +18,7 @@ import {
   AdminPanelSettings,
   PeopleAlt,
 } from "@mui/icons-material";
-import { TextField, Options, OtherApp, Participant, Table } from "./class";
+import { TextField, Options, OtherApp, Participant, Table, LabelCom } from "./class";
 
 export const TYPE_TEXT = "Text";
 export const TYPE_AREA = "Text Area";
@@ -38,7 +38,7 @@ export const APP_FUNCTIONS = [
     name: "Label",
     ic: <Label />,
     component: <TextInputComponent type={TYPE_LABEL} />,
-    data: new TextField(TYPE_LABEL),
+    data: new LabelCom(TYPE_LABEL),
     clone: false,
   },
   {
