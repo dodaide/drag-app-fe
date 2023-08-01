@@ -140,11 +140,11 @@ export default function TextInputComponent(props) {
     register,
     errors,
   } = props;
-  const [value, setValue] = useState("");
+  const tempValue = initialValue || windows[componentIndex]?.data.defaultValue;
+  const [value, setValue] = useState(tempValue);
 
   useEffect(() => {
     if (changeRecordValue) {
-      const tempValue = initialValue || windows[componentIndex]?.data.defaultValue;
       setValue(tempValue)
       changeRecordValue(tempValue);
     }
