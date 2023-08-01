@@ -68,8 +68,8 @@ function SimpleDialog(props) {
             const commonProps = {
               componentIndex: index,
               changeRecordValue: (value) =>
-                changeRecordValue(window.data.fieldName, value),
-              initialValue: localRecord[window.data.fieldName],
+                changeRecordValue(window.id, value),
+              initialValue: localRecord[window.id],
               editId: editId,
               register,
               errors,
@@ -102,7 +102,7 @@ function SimpleDialog(props) {
 export default function TableRecorder() {
   const [records, setRecords] = useState([]);
   const { windows } = useContext(dataContext);
-  const columns = windows.map((window) => window.data.fieldName);
+  const columns = windows.map((window) => window.id);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -184,6 +184,8 @@ export default function TableRecorder() {
     }
   };
 
+  console.log(windows);
+
   return (
     <>
       {!records ? (
@@ -203,7 +205,7 @@ export default function TableRecorder() {
                       </TableCell>
                     );
                   })}
-                  <TableCell></TableCell>
+                  <TableCell sx={{minWidth: 80}}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -256,7 +258,7 @@ export default function TableRecorder() {
                           </TableCell>
                         );
                       })}
-                      <TableCell sx={{minWidth: 80}}>
+                      <TableCell>
                         <Edit
                           color="action"
                           cursor="pointer"

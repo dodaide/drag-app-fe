@@ -85,6 +85,7 @@ export default function ToolBar() {
         (appFunc) => appFunc.id === item.idComponent
       );
       return {
+        id: item.id,
         idComponent: item.idComponent,
         component: componentIndex,
         data: item.data,

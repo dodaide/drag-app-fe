@@ -42,11 +42,13 @@ export default function SettingPage() {
         const rawData = res.data.windows;
         if (rawData) {
           const tempData = rawData.map((item) => ({
+            id: item.id,
             idComponent: item.idComponent,
             component: APP_FUNCTIONS[item.component].component,
             data: item.data,
           }));
           const tempData2 = rawData.map((item) => ({
+            id: item.id,
             idComponent: item.idComponent,
             component: APP_FUNCTIONS[item.component].component,
             data: item.data,

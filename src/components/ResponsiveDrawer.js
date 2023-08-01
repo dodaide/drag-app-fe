@@ -54,7 +54,9 @@ export default function ResponsiveDrawer() {
     ) {
       [dropComponent] = newWindows.splice(srcIndex, 1);
     } else {
+      const timestamp = new Date().getTime();
       dropComponent = {
+        id: `${result.draggableId}${timestamp}`,
         idComponent: result.draggableId,
         component: APP_FUNCTIONS[srcIndex].component,
         data: APP_FUNCTIONS[srcIndex].data
