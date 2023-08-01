@@ -204,7 +204,7 @@ function TableComponent(props, ref) {
     return (
       <div
         style={{
-          width: "452px",
+          width: "602px",
         }}
       >
         <StyledDataGrid
@@ -220,13 +220,13 @@ function TableComponent(props, ref) {
       <div
         style={{
           position: "relative",
-          width: "452px",
-          height: "157.5px",
+          width: "602px",
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <StyledDataGrid
+          autoHeight
           rows={windows[componentIndex].data.rows}
           hideFooter
           columns={generateColumnsFromRows(

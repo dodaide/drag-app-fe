@@ -36,7 +36,7 @@ class Participant {
 
 class Table {
   constructor(fieldName) {
-    this.minWidth = 452;
+    this.minWidth = 602;
     this.fieldName = fieldName;
     this.rows = [
       { id: 1, col1: "", col2: "", col3: "", col4: "" },

@@ -33,6 +33,7 @@ function TabPanel(props) {
     case 1:
       return <TableRecorder />;
     default:
+      return <Typography variant="h4">Comming soon</Typography>
   }
 }
 
