@@ -1,6 +1,6 @@
 class Options {
   constructor(fieldName) {
-    this.minWidth = 200;
+    this.minWidth = 250;
     this.fieldName = fieldName;
     this.options = ["Option 1", "Option 2", "Option 3"];
     this.isRequired = false;
@@ -10,7 +10,7 @@ class Options {
 
 class LabelCom {
   constructor(fieldName) {
-    this.minWidth = 150;
+    this.minWidth = 200;
     this.fieldName = fieldName;
     this.defaultValue = "";
   }
@@ -18,7 +18,7 @@ class LabelCom {
 
 class TextField {
   constructor(fieldName) {
-    this.minWidth = 200;
+    this.minWidth = 250;
     this.fieldName = fieldName;
     this.defaultValue = "";
     this.isRequired = false;
@@ -29,7 +29,7 @@ class TextField {
 
 class Participant {
   constructor(fieldName) {
-    this.minWidth = 100;
+    this.minWidth = 200;
     this.fieldName = fieldName;
   }
 }

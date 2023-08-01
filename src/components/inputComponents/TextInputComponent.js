@@ -28,13 +28,13 @@ function SimpleDialog(props) {
   const [minWidth, setMinWidth] = useState(0);
 
   useEffect(() => {
-    setFieldName(textFieldProps.label);
-    setDefaultValue(textFieldProps.value);
+    setFieldName(windows[componentIndex].data.fieldName);
+    setDefaultValue(windows[componentIndex].data.defaultValue);
     setIsRequired(windows[componentIndex].data.isRequired);
     setIsHide(windows[componentIndex].data.isHide);
     setisEmail(windows[componentIndex].data.isEmail);
     setMinWidth(windows[componentIndex].data.minWidth);
-  }, [windows, componentIndex, textFieldProps]);
+  }, [windows, componentIndex]);
 
   const handleSave = () => {
     const cloneData = [...windows];
@@ -49,9 +49,9 @@ function SimpleDialog(props) {
       };
     else if (type === TYPE_LABEL)
       cloneData[componentIndex].data = {
-        fieldName: "Label",
+        fieldName: fieldName,
         minWidth,
-        defaultValue: fieldName,
+        defaultValue,
       };
     setWindows(cloneData);
     onClose();
@@ -68,7 +68,7 @@ function SimpleDialog(props) {
             fullWidth
             onChange={(e) => setFieldName(e.target.value)}
           />
-          <InputLabel sx={{mt: 1}}>Min width</InputLabel>
+          <InputLabel sx={{ mt: 1 }}>Min width</InputLabel>
           <Input
             value={minWidth}
             fullWidth
@@ -77,54 +77,53 @@ function SimpleDialog(props) {
           />
         </Box>
         {(type === TYPE_TEXT || type === TYPE_AREA) && (
-          <>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isHide}
-                    onChange={(e) => setIsHide(e.target.checked)}
-                  />
-                }
-                label="Hide field name"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isRequired}
-                    onChange={(e) => setIsRequired(e.target.checked)}
-                  />
-                }
-                label="Required field"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isEmail}
-                    onChange={(e) => setisEmail(e.target.checked)}
-                  />
-                }
-                label="Is Email"
-              />
-            </FormGroup>
-            <Box mt={2}>
-              <InputLabel htmlFor="default-value">Default value</InputLabel>
-              <Input
-                id="default-value"
-                fullWidth
-                {...textFieldProps}
-                value={defaultValue}
-                onChange={(e) => setDefaultValue(e.target.value)}
-              />
-            </Box>
-          </>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isHide}
+                  onChange={(e) => setIsHide(e.target.checked)}
+                />
+              }
+              label="Hide field name"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isRequired}
+                  onChange={(e) => setIsRequired(e.target.checked)}
+                />
+              }
+              label="Required field"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isEmail}
+                  onChange={(e) => setisEmail(e.target.checked)}
+                />
+              }
+              label="Is Email"
+            />
+          </FormGroup>
         )}
+        <Box mt={2}>
+          <InputLabel htmlFor="default-value">Default value</InputLabel>
+          <Input
+            id="default-value"
+            fullWidth
+            {...textFieldProps}
+            value={defaultValue}
+            disabled={false}
+            onChange={(e) => setDefaultValue(e.target.value)}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
         <Button onClick={handleSave}>Save</Button>
       </DialogActions>
-    </Dialog>
+    </Dialog >
   );
 }
 
@@ -144,7 +143,7 @@ export default function TextInputComponent(props) {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    if (changeRecordValue){
+    if (changeRecordValue) {
       const tempValue = initialValue || windows[componentIndex]?.data.defaultValue;
       setValue(tempValue)
       changeRecordValue(tempValue);

@@ -196,16 +196,12 @@ export default function TableRecorder() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  {windows.map((window, i) => {
-                    if (window.data.isHide)
-                      return <TableCell align="center" key={i}></TableCell>;
-                    return (
-                      <TableCell align="center" sx={{minWidth: `${window.data.minWidth}px`}} key={i}>
-                        {window.data.fieldName}
-                      </TableCell>
-                    );
-                  })}
                   <TableCell sx={{minWidth: 80}}></TableCell>
+                  {windows.map((window, i) => (
+                      <TableCell align="center" sx={{minWidth: `${window.data.minWidth}px`}} key={i}>
+                        {!window.data.isHide && window.data.fieldName}
+                      </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -216,6 +212,23 @@ export default function TableRecorder() {
                       key={record._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
+                      <TableCell>
+                        <Edit
+                          color="action"
+                          cursor="pointer"
+                          onClick={() => {
+                            handleClickOpen(record._id, columnDatas);
+                          }}
+                        />
+                        <RemoveCircle
+                          color="action"
+                          cursor="pointer"
+                          onClick={() => {
+                            setDeleteId(record._id);
+                            setOpen2(true);
+                          }}
+                        />
+                      </TableCell>
                       {columns.map((column, index) => {
                         const columnData = columnDatas[column];
                         if (Array.isArray(columnData)) {
@@ -258,23 +271,6 @@ export default function TableRecorder() {
                           </TableCell>
                         );
                       })}
-                      <TableCell>
-                        <Edit
-                          color="action"
-                          cursor="pointer"
-                          onClick={() => {
-                            handleClickOpen(record._id, columnDatas);
-                          }}
-                        />
-                        <RemoveCircle
-                          color="action"
-                          cursor="pointer"
-                          onClick={() => {
-                            setDeleteId(record._id);
-                            setOpen2(true);
-                          }}
-                        />
-                      </TableCell>
                     </TableRow>
                   );
                 })}

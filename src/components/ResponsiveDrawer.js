@@ -55,8 +55,9 @@ export default function ResponsiveDrawer() {
       [dropComponent] = newWindows.splice(srcIndex, 1);
     } else {
       const timestamp = new Date().getTime();
+      const randomNum = Math.floor(Math.random() * 1000);
       dropComponent = {
-        id: `${result.draggableId}${timestamp}`,
+        id: `${result.draggableId}_${timestamp}_${randomNum}`,
         idComponent: result.draggableId,
         component: APP_FUNCTIONS[srcIndex].component,
         data: APP_FUNCTIONS[srcIndex].data
