@@ -147,7 +147,7 @@ export default function TextInputComponent(props) {
 
   useEffect(() => {
     const defaultValue = windows[componentIndex]?.data.defaultValue;
-    if (changeRecordValue && defaultValue !== "")
+    if (changeRecordValue)
       changeRecordValue(defaultValue);
   }, [componentIndex, windows, changeRecordValue]);
 

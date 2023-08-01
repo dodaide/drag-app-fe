@@ -18,6 +18,7 @@ const PrivateRoute = ({ children }) => {
           dispatch(getCurrentUser(response.data.username));
         })
         .catch(() => {
+          Cookies.remove(ACCESS_TOKEN, { path: '/' });
           setIslogin(false);
         });
     }

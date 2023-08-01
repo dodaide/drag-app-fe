@@ -208,7 +208,7 @@ export default function TableRecorder() {
               </TableHead>
               <TableBody>
                 {records.map((record) => {
-                  const columnDatas = record.data;
+                  const columnDatas = record.data || {};
                   return (
                     <TableRow
                       key={record._id}

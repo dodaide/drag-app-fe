@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
+import { ACCESS_TOKEN } from '../utils/constants';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -85,7 +86,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleLogout = () => {
-    Cookies.remove('access_token', { path: '/' });
+    Cookies.remove(ACCESS_TOKEN, { path: '/' });
     navigate('/login');
   }
 
