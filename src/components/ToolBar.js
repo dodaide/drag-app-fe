@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { axios } from "../utils/httpHelper";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import TableRecorder from "./TableRecorder";
+import AppSetting from "./AppSetting";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,6 +33,8 @@ function TabPanel(props) {
       return <ResponsiveDrawer />;
     case 1:
       return <TableRecorder />;
+    case 2:
+      return <AppSetting />;
     default:
       return <Typography variant="h4">Comming soon</Typography>
   }
@@ -152,8 +155,8 @@ export default function ToolBar() {
 
   return (
     <>
-      <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-        <Avatar variant="rounded" sx={{ width: 80, height: 80 }}>
+      <Stack direction="row" flexWrap="wrap" sx={{ alignItems: "center" }}>
+        <Avatar variant="rounded" sx={{ width: 80, height: 80, marginRight: 2}}>
           App
         </Avatar>
         <Stack>
@@ -165,7 +168,7 @@ export default function ToolBar() {
           </Typography>
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
-        <Stack alignItems="end">
+        <Stack mt={2}>
           <Stack direction="row" spacing={1}>
             <Button
               variant="outlined"
@@ -181,7 +184,7 @@ export default function ToolBar() {
             </Button>
           </Stack>
           <Typography variant="caption" gutterBottom>
-            Last Updated: trandoando02@gmail.com 2:47 PM
+            Last Updated: dodaide 2:47 PM
           </Typography>
         </Stack>
       </Stack>
@@ -193,8 +196,7 @@ export default function ToolBar() {
         >
           {role === ADMIN && <Tab value={0} label="Form" />}
           <Tab value={1} label="View" />
-          <Tab value={2} label="Graph" />
-          <Tab value={3} label="App Setting" />
+          <Tab value={2} label="App Setting" />
         </Tabs>
       </Box>
       <TabPanel value={value} />

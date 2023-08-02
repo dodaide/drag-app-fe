@@ -1,4 +1,4 @@
-import { useState, cloneElement, useContext} from "react";
+import { useState, cloneElement, useContext } from "react";
 import { Delete, ContentCopy } from "@mui/icons-material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {
@@ -24,8 +24,14 @@ import {
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { dataContext } from "../pages/SettingPage";
 
+const getIdByDate = () => {
+  const timestamp = new Date().getTime();
+  const randomNum = Math.floor(Math.random() * 1000);
+  return `${timestamp}${randomNum}`
+}
+
 export default function ResponsiveDrawer() {
-  const {windows, setWindows} = useContext(dataContext);
+  const { windows, setWindows } = useContext(dataContext);
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [funcs, setFuncs] = useState(APP_FUNCTIONS);
   const [open, setOpen] = useState(false);
@@ -54,10 +60,8 @@ export default function ResponsiveDrawer() {
     ) {
       [dropComponent] = newWindows.splice(srcIndex, 1);
     } else {
-      const timestamp = new Date().getTime();
-      const randomNum = Math.floor(Math.random() * 1000);
       dropComponent = {
-        id: `${timestamp}_${randomNum}`,
+        id: getIdByDate(),
         idComponent: result.draggableId,
         component: APP_FUNCTIONS[srcIndex].component,
         data: APP_FUNCTIONS[srcIndex].data
@@ -94,7 +98,7 @@ export default function ResponsiveDrawer() {
   };
 
   const duplicateWindow = (window, index) => {
-    const newWindow = { ...window };
+    const newWindow = { ...window, id: getIdByDate() };
     const cloneArray = [...windows];
     cloneArray.splice(index, 0, newWindow);
     setWindows(cloneArray);
@@ -160,7 +164,7 @@ export default function ResponsiveDrawer() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 square
-                sx={{ bgcolor: "#f7f7f7", minHeight: "80vh", width: "100%" }}
+                sx={{ bgcolor: "#f7f7f7", minHeight: "80vh", width: "100%", overflow: "scroll" }}
               >
                 {windows.map((window, index) => {
                   const dragId = window.idComponent + index;
@@ -174,7 +178,7 @@ export default function ResponsiveDrawer() {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            {cloneElement(window.component, {componentIndex: index, cantEdit: true})}
+                            {cloneElement(window.component, { componentIndex: index, cantEdit: true })}
                             <Box sx={{ flexGrow: 1 }} />
                             <ContentCopy
                               sx={{ cursor: "pointer" }}
@@ -187,7 +191,7 @@ export default function ResponsiveDrawer() {
                               onClick={() => handleClickOpen(index)}
                             />
                           </ListItem>
-                          <Divider/>
+                          <Divider />
                         </>
                       )}
                     </Draggable>

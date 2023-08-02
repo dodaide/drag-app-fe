@@ -67,7 +67,7 @@ export default function MultipleSelectChip({ windowId }) {
   };
 
   return (
-    <Paper sx={{ padding: "20px", width: 500 }}>
+    <Paper sx={{ padding: "20px", width: "100%" }}>
       <Autocomplete
         value={peoplePicked}
         onChange={handleChangePeople}
